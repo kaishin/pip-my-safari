@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>bundleid</key>
+	<string>co.kaishin.alfred.pipMySafari</string>
+	<key>category</key>
+	<string>Productivity</string>
+	<key>connections</key>
+	<dict>
+		<key>6E4EEBD5-0AB8-4986-8EC0-1CD707F41689</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>BD21A9FA-8D8E-414A-84E2-99BE6F3F1FE5</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>BD21A9FA-8D8E-414A-84E2-99BE6F3F1FE5</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>F96CB837-4F11-4F31-98CF-211BF786FF05</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+	</dict>
+	<key>createdby</key>
+	<string>Reda Lemeden</string>
+	<key>description</key>
+	<string>Enable PiP mode in Safari if a video is playing in the foreground.</string>
+	<key>disabled</key>
+	<false/>
+	<key>name</key>
+	<string>PiP My Safari</string>
+	<key>objects</key>
+	<array>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argumenttype</key>
+				<integer>1</integer>
+				<key>keyword</key>
+				<string>pip</string>
+				<key>subtext</key>
+				<string>Enable PiP in Safari if a video is playing in the foreground.</string>
+				<key>text</key>
+				<string>PiP My Safari</string>
+				<key>withspace</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.keyword</string>
+			<key>uid</key>
+			<string>6E4EEBD5-0AB8-4986-8EC0-1CD707F41689</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>concurrently</key>
+				<false/>
+				<key>escaping</key>
+				<integer>0</integer>
+				<key>script</key>
+				<string>pipCode="javascript:document.querySelector('video').webkitSetPresentationMode('picture-in-picture');"
+
+var frontmostAppName = Application('System Events').applicationProcesses.where({ frontmost: true }).name()[0]
+var frontmostApp = Application(frontmostAppName)
+
+if (['Safari', 'Safari Technology Preview'].indexOf(frontmostAppName) &gt; -1) {
+  frontmostApp.includeStandardAdditions = true
+
+  try {
+    frontmostApp.doJavaScript(pipCode, { in: frontmostApp.documents[0] })
+    stdout = undefined
+  } catch(err) {
+    stdout = "You need to enable 'Allow JavaScript from Apple Events' in the Safari Develop menu. The Develop menu can be enabled in Safari's Preferences &gt; Advanced tab."
+  }
+} else {
+  stdout = "Safari needs to be the frontmost app to trigger PiP mode."
+}</string>
+				<key>scriptargtype</key>
+				<integer>1</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>type</key>
+				<integer>7</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>BD21A9FA-8D8E-414A-84E2-99BE6F3F1FE5</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>lastpathcomponent</key>
+				<false/>
+				<key>onlyshowifquerypopulated</key>
+				<true/>
+				<key>removeextension</key>
+				<false/>
+				<key>text</key>
+				<string>{query}</string>
+				<key>title</key>
+				<string>PiP My Safari</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.output.notification</string>
+			<key>uid</key>
+			<string>F96CB837-4F11-4F31-98CF-211BF786FF05</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+	</array>
+	<key>readme</key>
+	<string></string>
+	<key>uidata</key>
+	<dict>
+		<key>6E4EEBD5-0AB8-4986-8EC0-1CD707F41689</key>
+		<dict>
+			<key>xpos</key>
+			<integer>190</integer>
+			<key>ypos</key>
+			<integer>120</integer>
+		</dict>
+		<key>BD21A9FA-8D8E-414A-84E2-99BE6F3F1FE5</key>
+		<dict>
+			<key>xpos</key>
+			<integer>390</integer>
+			<key>ypos</key>
+			<integer>120</integer>
+		</dict>
+		<key>F96CB837-4F11-4F31-98CF-211BF786FF05</key>
+		<dict>
+			<key>xpos</key>
+			<integer>610</integer>
+			<key>ypos</key>
+			<integer>120</integer>
+		</dict>
+	</dict>
+	<key>version</key>
+	<string>1.0</string>
+	<key>webaddress</key>
+	<string>https://redalemeden.com/pip-my-safari/</string>
+</dict>
+</plist>
