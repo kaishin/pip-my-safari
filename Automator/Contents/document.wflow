@@ -51,7 +51,24 @@
 				<key>ActionParameters</key>
 				<dict>
 					<key>source</key>
-					<string>pipCode="javascript:document.querySelector('video').webkitSetPresentationMode('picture-in-picture');"var frontmostAppName = Application('System Events').applicationProcesses.where({ frontmost: true }).name()[0]var frontmostApp = Application(frontmostAppName)if (['Safari', 'Safari Technology Preview'].indexOf(frontmostAppName) &gt; -1) {  frontmostApp.includeStandardAdditions = true  try {    frontmostApp.doJavaScript(pipCode, { in: frontmostApp.documents[0] })  } catch(err) {    var dialogText = "You need to enable 'Allow JavaScript from Apple Events' in the Safari Develop menu. The Develop menu can be enabled in Safari's Preferences &gt; Advanced tab."        frontmostApp.displayDialog(dialogText, {      withTitle: "PiP My Safari",      buttons: ["Ok"]    })  }}</string>
+					<string>pipCodeToggle = "javascript:document.querySelector('video').webkitSetPresentationMode(document.querySelector('video').webkitPresentationMode === 'inline' ? 'picture-in-picture' : 'inline');"
+
+var frontmostAppName = Application('System Events').applicationProcesses.where({ frontmost: true }).name()[0]
+var frontmostApp = Application(frontmostAppName)
+
+if (['Safari', 'Safari Technology Preview'].indexOf(frontmostAppName) > -1) {
+  frontmostApp.includeStandardAdditions = true
+
+  try {
+    frontmostApp.doJavaScript(pipCodeToggle, { in: frontmostApp.documents[0] })
+    stdout = undefined
+  } catch(err) {
+    stdout = "You need to enable 'Allow JavaScript from Apple Events' in the Safari Develop menu. The Develop menu can be enabled in Safari's Preferences > Advanced tab."
+  }
+} else {
+  stdout = "Safari needs to be the frontmost app to trigger PiP mode." 
+}
+</string>
 				</dict>
 				<key>BundleIdentifier</key>
 				<string>com.apple.Automator.RunJavaScript</string>
